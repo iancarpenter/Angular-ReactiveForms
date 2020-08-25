@@ -125,4 +125,8 @@ export class CustomerComponent implements OnInit {
       zip: ''
     })
   }
+
+  addAddress(): void {
+    this.addresses.push(this.buildAddress());
+  }
 }

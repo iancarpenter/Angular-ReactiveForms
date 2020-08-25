@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, AbstractControl, ValidatorFn } from
 import { debounceTime } from 'rxjs/operators';
 
 import { Customer } from './customer';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 function emailMatcher(c: AbstractControl): {[key: string]: boolean } | null {
   const emailControl = c.get('email');
@@ -63,14 +64,7 @@ export class CustomerComponent implements OnInit {
       notification: 'email',
       rating: [null, ratingRange(1,5)],
       sendCatalog: true,
-      addresses: this.fb.group({
-        addressType: 'home',
-        street1: '',
-        street2: '',
-        city: '',
-        state: '',
-        zip: ''
-      })      
+      addresses: this.buildAddress()
     });
 
     this.customerForm.get('notification').valueChanges.subscribe(
@@ -115,5 +109,16 @@ export class CustomerComponent implements OnInit {
       phoneControl.clearValidators();
     }
     phoneControl.updateValueAndValidity();
+  }
+
+  buildAddress(): FormGroup {
+    return this.fb.group({
+      addressType: 'home',
+      street1: '',
+      street2: '',
+      city: '',
+      state: '',
+      zip: ''
+    })
   }
 }
